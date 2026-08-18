@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zimmer-Radar — rooms within reach of Tivolistraße</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="board-header">
+  <div class="board-header__row">
+    <p class="eyebrow">WG-GESUCHT · MÜNCHEN UMLAND</p>
+    <h1>Zimmer-Radar</h1>
+    <p class="subtitle">Rooms outside Munich's city limits, within transit reach of <strong>Tivolistraße</strong>.</p>
+  </div>
+  <div class="board-header__meta">
+    <span class="meta-label">Last updated</span>
+    <span id="updated-at" class="meta-value">—</span>
+  </div>
+</header>
+
+<section class="controls" aria-label="Filters">
+  <label class="control">
+    <span>Max. transit time</span>
+    <input type="range" id="minutes-filter" min="5" max="60" step="5" value="60">
+    <output id="minutes-filter-value">60 min</output>
+  </label>
+  <label class="control">
+    <span>Max. price</span>
+    <input type="range" id="price-filter" min="100" max="700" step="25" value="700">
+    <output id="price-filter-value">700 €</output>
+  </label>
+  <label class="control control--select">
+    <span>Sort by</span>
+    <select id="sort-select">
+      <option value="transit">Transit time</option>
+      <option value="price">Price</option>
+      <option value="recent">Most recently added</option>
+    </select>
+  </label>
+</section>
+
+<main id="listings" class="listings" aria-live="polite">
+  <p class="empty-state">Loading…</p>
+</main>
+
+<footer>
+  <p>Fed by your own WG-Gesucht email alerts — no scraping involved. See the repo's README for setup.</p>
+</footer>
+
+<template id="listing-card-template">
+  <article class="card">
+    <div class="card__time">
+      <span class="card__time-value"></span>
+      <span class="card__time-unit">min</span>
+    </div>
+    <div class="card__time-bar"><span class="card__time-bar-fill"></span></div>
+    <div class="card__body">
+      <h2 class="card__title"></h2>
+      <p class="card__town"></p>
+      <p class="card__price"></p>
+      <a class="card__link" target="_blank" rel="noopener">View on WG-Gesucht →</a>
+    </div>
+  </article>
+</template>
+
+<script src="script.js"></script>
+</body>
+</html>

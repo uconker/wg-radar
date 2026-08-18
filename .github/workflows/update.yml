@@ -1,0 +1,41 @@
+name: Update listings
+
+on:
+  schedule:
+    # Every 4 hours. Cron is UTC. Adjust as you like — GitHub's scheduler
+    # is best-effort and can lag by a few minutes at busy times, that's normal.
+    - cron: "0 */4 * * *"
+  workflow_dispatch: {}  # lets you trigger a run manually from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements.txt
+
+      - name: Run pipeline
+        env:
+          IMAP_HOST: ${{ secrets.IMAP_HOST }}
+          IMAP_USER: ${{ secrets.IMAP_USER }}
+          IMAP_PASSWORD: ${{ secrets.IMAP_PASSWORD }}
+          IMAP_FOLDER: ${{ secrets.IMAP_FOLDER }}
+          SENDER_FILTER: ${{ secrets.SENDER_FILTER }}
+          GOOGLE_MAPS_API_KEY: ${{ secrets.GOOGLE_MAPS_API_KEY }}
+        run: python -m scraper.run
+
+      - name: Commit updated data
+        run: |
+          git config user.name "wg-radar-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/listings.json scraper/geocode_cache.json scraper/transit_cache.json
+          git diff --quiet --cached || git commit -m "Update listings [skip ci]"
+          git push
