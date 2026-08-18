@@ -26,15 +26,15 @@ EXCLUDED_TOWN_SUBSTRINGS = ["münchen", "muenchen"]
 # Point one or more WG-Gesucht "Email Alerts" at a mailbox you control, then
 # fill these in as GitHub Actions secrets (see README.md) — never commit real
 # values here.
-IMAP_HOST = os.environ.get("IMAP_HOST", "imap.gmail.com")
-IMAP_PORT = int(os.environ.get("IMAP_PORT", "993"))
+IMAP_HOST = os.environ.get("IMAP_HOST") or "imap.gmail.com"
+IMAP_PORT = int(os.environ.get("IMAP_PORT") or "993")
 IMAP_USER = os.environ.get("IMAP_USER", "")
 IMAP_PASSWORD = os.environ.get("IMAP_PASSWORD", "")
-IMAP_FOLDER = os.environ.get("IMAP_FOLDER", "INBOX")
+IMAP_FOLDER = os.environ.get("IMAP_FOLDER") or "INBOX"
 
 # Only emails whose "From" header contains this are treated as WG-Gesucht
 # alerts. Check a real alert email once one arrives and adjust if needed.
-SENDER_FILTER = os.environ.get("SENDER_FILTER", "wg-gesucht.de")
+SENDER_FILTER = os.environ.get("SENDER_FILTER") or "wg-gesucht.de"
 
 # --- Google Distance Matrix (public transit + walking travel time) ---------
 GOOGLE_MAPS_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY", "")
